@@ -64,7 +64,7 @@ Restart Claude Code. Then ask for slides, or type `/deck-design`.
 
 The rules get updated from time to time.
 
-- **claude.ai:** download the zip again (Step 1), go to Customize > Skills, delete the old deck-design, and upload the new one.
+- **claude.ai:** download the zip again (Step 1). Go to **Customize > Skills**, open **deck-design**, click the **⋯** button next to its on/off switch, choose **Replace**, and pick the new zip.
 - **Claude Code:** run this:
 
 ```bash
