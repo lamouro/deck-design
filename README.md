@@ -15,7 +15,7 @@ A Claude skill with slide and deck design rules. It loads whenever you ask Claud
 Clone the repo into your skills folder:
 
 ```bash
-git clone https://github.com/OWNER/deck-design ~/.claude/skills/deck-design
+git clone https://github.com/lamouro/deck-design ~/.claude/skills/deck-design
 ```
 
 Then ask for slides, or type `/deck-design`. Run `git pull` in that folder to get updates.
