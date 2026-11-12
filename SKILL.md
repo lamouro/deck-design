@@ -180,4 +180,4 @@ Backgrounds: white, light gray, dark gray and black only (section 6), plus full-
 
 ## 13. Final check (always)
 
-Before handing it over, render every slide to an image (the pptx skill's thumbnail or render step, or screenshots in Claude Design) and actually look at each one. Then run `references/checklist.md`. Fix what fails and look again. Tell the user about any placeholder, missing asset or assumption in one short list.
+Before handing it over, check font sizes in the code, not by eye: search the build script or styles for every font size and raise anything under 20pt (descriptions under headings, card captions, labels, footers and placeholders count too). Then render every slide to an image (the pptx skill's thumbnail or render step, or screenshots in Claude Design) and actually look at each one, including that list markers sit level with their text. Then run `references/checklist.md`. Fix what fails and look again. Tell the user about any placeholder, missing asset or assumption in one short list.
