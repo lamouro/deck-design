@@ -10,12 +10,16 @@ Run this after rendering every slide to an image. Any "no" gets fixed before han
 - [ ] Nothing directly under the title restating it (no subheader)
 - [ ] No "Word. Word. Word." fragments, no middle dots, no pipes as separators, no em dashes
 - [ ] At most 5 to 7 bullets, at most 6 to 7 words each, one sub-level at most
+- [ ] List marker fits the content (numbers for steps, ✓ for requirements, ✓/✗ for do/don't, → for cause and effect, • for unordered)
+- [ ] Lists built as real lists: markers present and aligned, wrapped lines indented under the text, no typed "•" characters
 - [ ] Wrapped bullets single spaced, 12pt before and after each bullet
+- [ ] The slide earns its place: deleting it would lose information the audience needs
 - [ ] One idea, one focal point, little clutter
 - [ ] No text overflowing its box, overlapping something, or cut off at the slide edge
 - [ ] Sans-serif font (APHont, Verdana, Tahoma, Arial) unless the template says otherwise
 - [ ] Headings 44 to 60pt bold, body 28 to 44pt (30 or 32 preferred), labels and sources 20pt or more
-- [ ] Light text on dark background (or the template's colors); contrast passes, including over images
+- [ ] Background is white, light gray, dark gray, black or a photo (or the template's); no colored backgrounds
+- [ ] Contrast passes, including over images
 - [ ] Nothing conveyed by color alone
 - [ ] Every image, chart, graph and table has alt text
 - [ ] Margins match the other slides; edges line up with the grid
@@ -26,9 +30,11 @@ Run this after rendering every slide to an image. Any "no" gets fixed before han
 ## Whole deck
 - [ ] Template followed, if there is one
 - [ ] No layout used twice in a row; no layout on more than about a third of slides
-- [ ] Section header at each topic change
+- [ ] Several list slides, using different markers; no two list slides in a row with the same marker
+- [ ] Section headers only in decks of about 10+ slides
+- [ ] No useless slides: no restatements, no placeholder-only slides, no lone "Thank you", no agenda in a short deck
 - [ ] Reading only the titles tells the full story
-- [ ] Palette comes from the template, the subject or the user's assets; five colors max; accent used only for emphasis
+- [ ] White, grays and black dominate; one accent (two at most) from the subject or the user's assets, used only on small things; five colors max
 - [ ] Same color means the same thing everywhere
 - [ ] Two fonts max
 - [ ] Every asset the user gave is used, or the skipped ones are named; every image adds meaning

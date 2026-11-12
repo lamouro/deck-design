@@ -1,6 +1,6 @@
 ---
 name: deck-design
-description: Slide and deck design rules. Use whenever making, editing, redesigning or reviewing a slide, deck, presentation, pitch deck, keynote or PowerPoint, in any medium (Claude Design, a .pptx, Google Slides, an HTML or Slides artifact), even for a single slide and even if the user doesn't name the skill. Covers titles, text and bullet limits, banned patterns, layout variety, color from the subject, using the assets the user gives, data slides, fonts and sizes, accessibility (alt text, color, captions), speaker notes and a final check. File mechanics (building or editing a .pptx) still go through the pptx skill; this skill decides what the slides look like and say.
+description: Slide and deck design rules. Use whenever making, editing, redesigning or reviewing a slide, deck, presentation, pitch deck, keynote or PowerPoint, in any medium (Claude Design, a .pptx, Google Slides, an HTML or Slides artifact), even for a single slide and even if the user doesn't name the skill. Covers titles, cutting useless slides, lists (bullets, numbers, check marks, arrows) and how to build them, white/gray/black backgrounds, banned patterns, layout variety, color from the subject, using the assets the user gives, data slides, fonts and sizes, accessibility (alt text, color, captions), speaker notes and a final check. File mechanics (building or editing a .pptx) still go through the pptx skill; this skill decides what the slides look like and say.
 ---
 
 # Deck design
@@ -17,6 +17,20 @@ These rules decide what every slide says and how it looks. They apply in Claude 
 
 Length: about one slide per minute of talk. A deck meant to be read without a presenter can run longer, never denser.
 
+### Every slide earns its place
+
+A slide that teaches the audience nothing new is a useless slide. Cut it, or merge what it has into a neighbor. Before building, ask of each slide in the outline: "If this slide were deleted, would the audience lose information they need?" If not, delete it. Common useless slides:
+
+- A section header in a deck under about 10 slides, or one that just repeats the next slide's title.
+- An agenda in a short deck.
+- A statement or big-number slide that restates what the previous or next slide already says, or whose number doesn't matter.
+- A slide made of placeholders ([prize], [time]) with nothing real on it. If most of a slide would be placeholders, fold it into another slide or ask the user for the details.
+- A closing slide with only "Thank you" or "Questions?" and no next step.
+- A decorative image slide, a "Why this matters" slide with no specifics, or a recap that repeats the deck.
+- A slide that splits one list across two slides when it fits on one.
+
+Count the slides the user asked for as a maximum, not a target to fill. If the content honestly fits in fewer, use fewer and say why.
+
 ## 2. Text rules (hard)
 
 - **One title per slide, at the top,** in the same position and size on every content slide so the eye knows where to land. Exceptions: the title slide, a full-bleed statement slide, and a big-number slide, where the one line of text is the slide.
@@ -27,9 +41,26 @@ Length: about one slide per minute of talk. A deck meant to be read without a pr
 - **No dot-separated fragments.** No "Fast. Simple. Secure.", no "Plan. Build. Ship.", no "text.text.text". Write a real sentence or use a list.
 - **No middle dots, pipes or bullets as separators** between words or items ("Boston · 2026", "Design | Build"). Use a line break, a comma, or separate elements.
 - **No em dashes.** Use a comma, a period or a colon.
+- **Lists are welcome. Use them, and use the right kind.** Most decks should have several list slides. Pick the marker by what the list is:
+
+  | The items are | Use |
+  |---|---|
+  | Steps, a sequence, a ranking, or things people will refer to by number | Numbered list (1, 2, 3) |
+  | Requirements, rules, what's included, done items | Check marks (✓) |
+  | Do and don't, allowed and not allowed, pros and cons | ✓ and ✗ side by side, always with the words "Do" / "Don't" or similar so color isn't the only signal |
+  | Causes and results, inputs and outputs, "this leads to that" | Arrows (→) |
+  | Options, features, facts with no order | Round bullets (•) or a small icon per item in one icon style |
+  | Key terms with a short explanation | Bold term, then a colon, then the explanation |
+
+  Mix list styles across the deck. Two list slides in a row should not use the same marker.
 - **Bullets: 5 to 7 per slide at most, 6 to 7 words per bullet at most.** No paragraphs. Fewer is better: the less clutter, the easier it reads. If it doesn't fit, it's two slides or it goes in the speaker notes.
-- **One sub-level is allowed** (a demoted point under a bullet) when it makes the slide easier to read. Never a third level.
+- **One sub-level is allowed** (a demoted point under a bullet, with a smaller or different marker such as a dash) when it makes the slide easier to read. Never a third level.
 - **Bullet spacing:** single line spacing inside a bullet that wraps to two lines, with 12pt of space before and after each bullet so bullets stay visibly separate. In a .pptx that's line spacing 1.0 with paragraph space before and after set to 12pt (PowerPoint: Paragraph > Indents and Spacing, or Option+Command+M on Mac). In HTML, line-height about 1.15 with 12pt margin between list items.
+- **Build lists as real lists, never typed characters.** A wrapped second line must line up under the text, not under the marker (a hanging indent), and every marker must sit level with the first line of its item.
+  - .pptx with pptxgenjs: one text object for the whole list, each item `{ text, options: { bullet: true, breakLine: true } }`. Numbered: `bullet: { type: "number" }`. Symbol: `bullet: { code: "2713" }` for ✓, `"2717"` for ✗, `"2192"` for →, `"25CF"` for ●. Sub-level: `indentLevel: 1`. Never put "• " or "1. " inside the text string, and never build a list as separate text boxes stacked by hand.
+  - .pptx with python-pptx: set the paragraph's bullet properties (buChar / buAutoNum) and level, not a typed character.
+  - HTML: `<ul>` or `<ol>` with `list-style` or a `::marker` / `::before` symbol and `padding-left` for the hanging indent; never a `<p>` starting with "•".
+  - After rendering, check every list: markers present, same size and color, aligned, wrapped lines indented, even spacing between items.
 - **Emphasis:** bold or a contrasting color, used sparingly, never underline (it reads as a link) and never color alone (section 6).
 - **Plain words.** No "unlock", "leverage", "seamless", "revolutionize", "empower", "journey", "in today's fast-paced world". Say the specific thing.
 - **Numbers beat adjectives.** "Cut load time from 4s to 1s", not "much faster". Never invent a number; if one would help and isn't given, leave a visible placeholder like [X%] and tell the user.
@@ -44,20 +75,24 @@ These make a deck read as AI-made or templated. Never use them:
 - A row of three identical cards with icon, heading and two lines (the default "features" slide). If three items really are parallel, vary it: numbers, a diagram, a screenshot per item, or one item per slide.
 - Gradient blobs, glows, glassmorphism or random decorative shapes that don't mean anything.
 - Stock-photo clichés (handshakes, people pointing at whiteboards, lightbulbs, puzzle pieces).
-- Every slide the same title-plus-bullets stack. Bullets are allowed, but not as the only layout.
+- Every slide the same title-plus-bullets stack. Lists are encouraged (section 2), but not as the only layout and not always with the same marker.
+- A list turned into a grid of cards just to avoid bullets. If the content is a list, show it as a list.
+- Full-color or accent-color slide backgrounds (section 6).
 - Logo stamped in a corner of every slide.
 - Clip art, 3D pie charts, drop shadows on text, WordArt-style effects, more than one icon style.
 
 ## 4. Layout variety
 
-Plan the sequence so **no layout appears twice in a row** and no single layout covers more than about a third of the deck. Mix dense and airy slides: after a chart or a detailed slide, give the audience a simple one.
+Plan the sequence so **no layout appears twice in a row** and no single layout covers more than about a third of the deck. List slides with different markers (numbered, check marks, arrows, do/don't) count as different layouts. Mix dense and airy slides: after a chart or a detailed slide, give the audience a simple one.
 
 Layout menu (pick per slide, by what the content is):
 
 | Content | Layout |
 |---|---|
-| One striking number | Big number: the number huge, one line saying what it means |
-| One claim worth pausing on | Statement: one sentence, large, lots of space, maybe a full-color background |
+| A list of points, rules, steps or options | List slide with the marker that fits (section 2): numbered, check marks, ✓/✗, arrows, bullets or icons. Can sit beside an image or a number on the other half |
+| Rules or guidance with do's and don'ts | Two columns: ✓ Do on one side, ✗ Don't on the other |
+| One striking number that matters | Big number: the number huge, one line saying what it means. Only if the number is new information |
+| One claim worth pausing on | Statement: one sentence, large, lots of space, on a black or white background. Only if it adds something; never a restatement |
 | A photo or product shot carries it | Full-bleed image with the title over a calm area of the image, or image on one half, text on the other |
 | Product, UI, app | Screenshot large, in a device frame or clean shadowless crop, with 1 to 3 callouts pointing at what matters |
 | Comparison of two things | Split screen, before/after, or two columns with a clear winner highlighted |
@@ -66,10 +101,10 @@ Layout menu (pick per slide, by what the content is):
 | Several parallel items | Grid of 2, 4 or 6 with images or numbers, not just icons |
 | A quote or testimonial | Quote large, name and role small, photo if given |
 | Team or people | Photo grid with names and roles |
-| Moving to a new topic | Section header: section title only, on the accent color or an image. Use one at every topic change so the audience knows the talk has moved on |
+| Moving to a new topic in a deck of about 10+ slides | Section header: section title only, on black or on an image. Skip it in shorter decks; the slide titles already signal the change |
 | Ending | Closing (section 10) |
 
-Backgrounds: the default is light text on a dark background (section 6). Get variety from the accent color on statement and section-header slides and from full-bleed images, not from switching the deck between light and dark. If a template is given, its backgrounds win.
+Backgrounds: white, light gray, dark gray and black only (section 6), plus full-bleed photos. Mix them across the deck, for example white for most content slides, light gray for lists or charts that need separation, and black for the title, statements and closing. Never a colored background. If a template is given, its backgrounds win.
 
 ## 5. Using the assets the user gives
 
@@ -84,10 +119,10 @@ Backgrounds: the default is light text on a dark background (section 6). Get var
 ## 6. Color
 
 - **Follow the template first.** If the user gives a template (or says "our template"), its colors and layouts are the rules. If the user mentions a template and didn't attach it, ask for it before building.
-- **Default: light text on a dark background.** Dark backgrounds with light text, unless the template or the user says otherwise.
+- **Backgrounds are neutral: white, gray and black dominate.** Slide backgrounds and large areas (panels, cards, table fills) are white, a light gray (around #F2F2F2 to #E5E5E5), a dark gray (around #2B2B2B) or black (#000 to #111). Dark text on white and light gray; white or light text on dark gray and black. Color never fills a slide background, unless the template or the user says otherwise.
 - **Never convey information with color alone.** Anything color says, text or shape also says: label the highlighted bar, write "up" or "down" next to a red or green number, use different line styles or direct labels instead of a color-only legend, and add a word or icon to any color-coded status.
-- **Derive the palette from the subject and the assets,** not from a default. Pull colors from the logo or the photos the user gave. With no assets, pick colors that fit the topic and audience (a finance board deck, a kids' science fair and a music festival should not look alike). Never default to generic blue-and-white or purple gradients.
-- **Structure:** one dominant color (backgrounds or large areas), one or two supporting neutrals, and one accent. Five colors max across the deck, including neutrals.
+- **The accent comes from the subject and the assets,** not from a default. Pull it from the logo or the photos the user gave. With no assets, pick one that fits the topic and audience (a finance board deck, a kids' science fair and a music festival should not use the same accent). Never generic purple gradients.
+- **Structure:** white, grays and black make up most of every slide. Add one accent color (two at most), used on small things only: the key number, the highlighted bar, a list marker, an icon, one important word. Five colors max across the deck, counting the neutrals.
 - **The accent directs attention.** Use it for the one bar that matters, the key number, the important word. If the accent is everywhere, it highlights nothing.
 - **Contrast:** body text at least 4.5:1 against its background, titles at least 3:1. Check text over images and over colored backgrounds.
 - **Same color means the same thing on every slide.** If "us" is the accent in one chart, "us" is the accent in every chart.
@@ -121,7 +156,7 @@ Backgrounds: the default is light text on a dark background (section 6). Get var
 
 ## 10. Title and closing slides
 
-- **Title slide:** the deck's title (short, two lines max) plus only what's essential: presenter name, date, organization. No subtitle, no tagline. One strong visual or none: a photo, the logo, or a color block.
+- **Title slide:** the deck's title (short, two lines max) plus only what's essential: presenter name, date, organization. No subtitle, no tagline. One strong visual or none: a photo or the logo, on black or white.
 - **Closing slide:** the ask or the next step ("Questions", "Try it at example.com", "Vote by Friday"), plus the one contact method that matters. A lone "Thank you" is a wasted slide; if the user wants thanks, pair it with the next step. No new information, no wall of social handles.
 - **Agenda slide:** only for decks of about 10+ slides or 15+ minutes. Skip it otherwise.
 
